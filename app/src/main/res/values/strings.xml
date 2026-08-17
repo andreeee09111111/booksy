@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Booksy</string>
+    <string name="el_nombre_del_viento">El nombre del viento</string>
+    <string name="booksy">Booksy</string>
+    <string name="bienvenido_de_vuelta">BIENVENIDO DE VUELTA</string>
+    <string name="destacado_del_mes">Destacado del mes</string>
+    <string name="corazon">♡</string>
+    <string name="fantasia">Fantasia</string>
+    <string name="patrick_rothfuss">Patrick Rothfuss</string>
+    <string name="lupa">🔍</string>
+    <string name="lupa2">🔎</string>
 </resources>

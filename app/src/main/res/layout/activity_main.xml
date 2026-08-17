@@ -1,48 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:background="#F5EFEB">
+    android:background="@color/fondo_crema">
 
-    <!-- subtítulo-->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Bienvenido de vuelta"
-        android:textSize="12sp"
-        android:textColor="#666666" />
-
-    <!-- título y la barra de buscar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginTop="5dp">
+        android:orientation="vertical">
 
-        <!-- Título de app -->
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Booksy"
-            android:textSize="28sp"
-            android:textStyle="bold"
-            android:textColor="#1A2B3C" />
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:padding="20dp"
+            android:gravity="center_vertical">
 
-        <!-- icono de lupa -->
-        <EditText
-            android:id="@+id/etSearch"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bienvenido_de_vuelta"
+                    android:textColor="@color/texto_gris"
+                    android:textSize="15sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/booksy"
+                    android:textColor="@color/texto_negro"
+                    android:textSize="40sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+            <FrameLayout
+                android:id="@+id/botonBuscar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/circulo_boton"
+                android:foreground="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true">
+
+            </FrameLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/linea" />
+
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Buscar..."
-            android:drawableStart="@android:drawable/ic_menu_search"
-            android:background="@android:color/transparent"
-            android:padding="10dp"
-            android:textSize="16sp" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/destacado_del_mes"
+            android:textColor="@color/texto_negro"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/fondo_tarjeta">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_margin="14dp"
+                android:text="@string/corazon"
+                android:textColor="@color/blanco"
+                android:textSize="26sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical"
+                android:padding="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fantasia"
+                    android:textColor="@color/texto_gris"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/el_nombre_del_viento"
+                    android:textColor="@color/blanco"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/patrick_rothfuss"
+                    android:textColor="@color/blanco"
+                    android:textSize="15sp" />
+
+
+            </LinearLayout>
+
+        </FrameLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</ScrollView>
