@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="fondo_crema">#F2ECE1</color>
-    <color name="texto_negro">#2B2B28</color>
-    <color name="texto_gris">#8C8578</color>
-    <color name="circulo_gris">#DDD2BC</color>
-    <color name="verde_oscuro">#20403A</color>
+    <color name="fondo">#F2EBE1</color>
+    <color name="letras">#082F37</color>
+    <color name="texto_gris">#878179</color>
+    <color name="circulo_gris">#D4CCBF</color>
+    <color name="exterior_oscuro">#135A58</color>
     <color name="blanco">#FFFFFF</color>
-    <color name="linea">#E0D9CB</color>
+    <color name="linea">#E3D9CC</color>
 </resources>
