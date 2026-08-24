@@ -19,10 +19,8 @@ class LoginActivity : AppCompatActivity() {
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val btnRegister = findViewById<Button>(R.id.btnRegister)
 
-        // archivo .txt
         val archivoUsuariosTxt = File(filesDir, "usuarios_registrados.txt")
 
-        // Registrar
         btnRegister.setOnClickListener {
             val user = etUsuario.text.toString()
             val pass = etPassword.text.toString()
@@ -30,24 +28,34 @@ class LoginActivity : AppCompatActivity() {
             val registrado = UserManager.registrarUsuario(user, pass)
 
             if (registrado) {
-                Toast.makeText(this, "Usuario agregado a la colección", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
+
+                // Ejemplo de uso de función de orden superior
+                val usuarios = UserManager.obtenerNombresUsuarios()
+                Toast.makeText(this, "Usuarios registrados: ${usuarios.size}", Toast.LENGTH_LONG).show()
+
                 etUsuario.text.clear()
                 etPassword.text.clear()
             } else {
-                Toast.makeText(this, "Ingresa un usuario y contraseña válidos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Usuario inválido o ya existe", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Ingresar
         btnLogin.setOnClickListener {
             val user = etUsuario.text.toString()
             val pass = etPassword.text.toString()
 
-            // parámetros
             val loginExitoso = UserManager.validarLoginGuardar(user, pass, archivoUsuariosTxt)
 
             if (loginExitoso) {
                 Toast.makeText(this, "¡Bienvenido! Datos guardados en TXT", Toast.LENGTH_SHORT).show()
+
+                // Ejemplo de uso de función de orden superior
+                val usuariosConA = UserManager.obtenerUsuariosPorInicial('a')
+                if (usuariosConA.isNotEmpty()) {
+                    Toast.makeText(this, "Usuarios con 'A': ${usuariosConA.size}", Toast.LENGTH_SHORT).show()
+                }
+
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
