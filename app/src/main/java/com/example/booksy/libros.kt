@@ -1,15 +1,16 @@
 package com.example.booksy
 
+import android.R
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "libros")
-data class Libro(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    val titulo: String,
+data class Book(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val autor: String,
     val esFavorito: Boolean = false,
     val descripcion: String?,
-    val calificacion: String,
-    val categoria: String
+    val categoria: String,
+    val calificacion: String
 )
