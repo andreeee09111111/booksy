@@ -1,10 +1,10 @@
 package com.example.booksy
 
-import android.graphics.Color
 import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.booksy.databinding.ActivityMainBinding
 
@@ -17,16 +17,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Si no hay estado guardado, cargamos Inicio por defecto
         if (savedInstanceState == null) {
             actualizarSeleccion(binding.tvInicio, InicioFragment())
         }
 
+        // Listeners de la barra de navegación
         binding.navInicio.setOnClickListener {
             actualizarSeleccion(binding.tvInicio, InicioFragment())
         }
 
         binding.navExplorar.setOnClickListener {
-            irAExplorar()
+            actualizarSeleccion(binding.tvExplorar, ExplorarFragment())
         }
 
         binding.navBiblioteca.setOnClickListener {
@@ -34,31 +36,38 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Función pública para navegar a Explorar desde otros Fragmentos
     fun irAExplorar() {
         actualizarSeleccion(binding.tvExplorar, ExplorarFragment())
     }
 
+    // Función pública para ir a Búsqueda (Se deselecciona todo porque SearchFragment no pertenece a la barra inferior)
     fun irABuscar() {
-        cargarFragmento(SearchFragment())
-
-        val textViews = listOf(binding.tvInicio, binding.tvExplorar, binding.tvBiblioteca)
-        for (tv in textViews) {
-            tv.setTextColor(Color.parseColor("#666666"))
-            tv.setTypeface(null, Typeface.NORMAL)
-        }
+        // Pasamos null para que ningún botón quede resaltado
+        actualizarSeleccion(null, SearchFragment())
     }
 
-    private fun actualizarSeleccion(textViewSeleccionado: TextView, fragment: Fragment) {
+    // AHORA ACEPTA NULL para poder deseleccionar todos los botones
+    private fun actualizarSeleccion(textViewSeleccionado: TextView?, fragment: Fragment) {
         cargarFragmento(fragment)
 
-        val textViews = listOf(binding.tvInicio, binding.tvExplorar, binding.tvBiblioteca)
-        for (tv in textViews) {
-            tv.setTextColor(Color.parseColor("#666666"))
-            tv.setTypeface(null, Typeface.NORMAL)
-        }
+        // Colores traídos directamente de TU colors.xml
+        val colorGris = ContextCompat.getColor(this, R.color.texto_gris)
+        val colorActivo = ContextCompat.getColor(this, R.color.exterior_oscuro)
 
-        textViewSeleccionado.setTextColor(Color.parseColor("#008080"))
-        textViewSeleccionado.setTypeface(null, Typeface.BOLD)
+        val textViews = listOf(binding.tvInicio, binding.tvExplorar, binding.tvBiblioteca)
+
+        for (tv in textViews) {
+            if (tv == textViewSeleccionado) {
+                // Resaltar el botón activo con tu verde oscuro
+                tv.setTextColor(colorActivo)
+                tv.setTypeface(null, Typeface.BOLD)
+            } else {
+                // Quitar resaltado a los demás con tu gris
+                tv.setTextColor(colorGris)
+                tv.setTypeface(null, Typeface.NORMAL)
+            }
+        }
     }
 
     private fun cargarFragmento(fragment: Fragment) {

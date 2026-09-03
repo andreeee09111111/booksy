@@ -54,7 +54,7 @@
                     android:padding="10dp"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/circulo_boton"
-                    android:src="@drawable/menu_search"
+                    android:src="@drawable/ic_search"
                     android:contentDescription="Buscar" />
 
                 <ImageView
@@ -70,205 +70,54 @@
 
         </LinearLayout>
 
+        <!-- Sección: Destacado del mes (UN solo libro, tarjeta grande) -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
             android:text="Destacado del mes"
             android:textSize="18sp"
             android:textStyle="bold"
             android:textColor="#1E2B25" />
 
-        <androidx.cardview.widget.CardView
+        <include
+            android:id="@+id/incluirDestacado"
+            layout="@layout/item_libro"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="12dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp">
+            android:layout_height="wrap_content" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <!-- Sección: Recomendados para ti -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="12dp"
+            android:text="Recomendados para ti"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#1E2B25" />
 
-                <ImageView
-                    android:id="@+id/ivDestacado"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/portada_destacado" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#66000000" />
-
-                <ImageView
-                    android:id="@+id/ivFavDestacado"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="top|end"
-                    android:layout_margin="12dp"
-                    android:padding="8dp"
-                    android:background="@drawable/circulo_boton"
-                    android:src="@drawable/ic_heart_outline" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/tvGeneroDestacado"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/fondo_tarjeta"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:text="Fantasía"
-                        android:textSize="11sp"
-                        android:textColor="#FFFFFF" />
-
-                    <TextView
-                        android:id="@+id/tvTituloDestacado"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="El nombre del viento"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textColor="#FFFFFF" />
-
-                    <TextView
-                        android:id="@+id/tvAutorDestacado"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Patrick Rothfuss"
-                        android:textSize="13sp"
-                        android:textColor="#E0E0E0" />
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="4dp"
-                        android:gravity="center_vertical">
-
-                        <RatingBar
-                            android:id="@+id/rbDestacado"
-                            style="?android:attr/ratingBarStyleSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:rating="4.5"
-                            android:stepSize="0.5"
-                            android:progressTint="#26A69A" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:text="4.5 (2341)"
-                            android:textSize="12sp"
-                            android:textColor="#E0E0E0" />
-                    </LinearLayout>
-
-                </LinearLayout>
-
-
-            </FrameLayout>
-
-        </androidx.cardview.widget.CardView>
-
+        <!-- Filtros por género -->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:layout_marginBottom="12dp">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupCategorias"
+            <LinearLayout
+                android:id="@+id/containerFiltros"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:singleSelection="true"
-                app:selectionRequired="true">
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipTodos"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Todos"
-                    android:checked="true" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipFantasia"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fantasía" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipClasico"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Clásico" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipMisterio"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Misterio" />
-
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipCiencia"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ciencia Ficción" />
-
-            </com.google.android.material.chip.ChipGroup>
-
+                android:orientation="horizontal" />
         </HorizontalScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Lecturas populares"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#1E2B25" />
-
-            <TextView
-                android:id="@+id/tvCantidadLibros"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="6 libros"
-                android:textSize="13sp"
-                android:textColor="#7A8B7F" />
-
-        </LinearLayout>
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvLibrosPopulares"
+            android:id="@+id/rvRecomendados"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:nestedScrollingEnabled="false"
-            app:spanCount="2"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+            android:orientation="vertical"
+            android:nestedScrollingEnabled="false" />
 
     </LinearLayout>
-
 </androidx.core.widget.NestedScrollView>

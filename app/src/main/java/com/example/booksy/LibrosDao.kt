@@ -6,14 +6,18 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface LibrosDao {
     @Query("SELECT * FROM libros")
-    fun getAllTasks(): Flow<List<Book>>
+    fun getAllLibros(): Flow<List<Book>>
+
+    // ===== NUEVO: Obtener solo favoritos =====
+    @Query("SELECT * FROM libros WHERE esFavorito = 1")
+    fun getFavoriteBooks(): Flow<List<Book>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertTask(book: Book)
+    suspend fun insertLibro(book: Book)
 
     @Update
-    suspend fun updateTask(book: Book)
+    suspend fun updateLibro(book: Book)
 
     @Delete
-    suspend fun deleteTask(book: Book)
+    suspend fun deleteLibro(book: Book)
 }

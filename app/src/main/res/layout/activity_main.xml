@@ -85,6 +85,27 @@
                 android:textSize="12sp"
                 android:textColor="#666666" />
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/navCuenta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_myplaces" />
+
+            <TextView
+                android:id="@+id/tvCuenta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cuenta"
+                android:textSize="12sp"
+                android:textColor="#666666" />
+        </LinearLayout>
 
     </LinearLayout>
 

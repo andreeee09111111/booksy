@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginBottom="12dp">
+
+        <ImageView
+            android:id="@+id/ivPortadaPreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="#E8E2DC"
+            android:src="@drawable/portada_destacado"
+            android:contentDescription="Portada del libro" />
+
+        <Button
+            android:id="@+id/btnSeleccionarPortada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="8dp"
+            android:text="Agregar portada"
+            android:textAllCaps="false"
+            android:textSize="12sp" />
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/etTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Título del libro"
+        android:inputType="text"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/etAutor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Autor"
+        android:inputType="text"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/etCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Categoría (ej. Fantasía)"
+        android:inputType="text"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/etCalificacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Calificación (0.0 - 5.0)"
+        android:inputType="numberDecimal" />
+
+</LinearLayout>

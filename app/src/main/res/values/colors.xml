@@ -6,4 +6,8 @@
     <color name="exterior_oscuro">#135A58</color>
     <color name="blanco">#FFFFFF</color>
     <color name="linea">#E3D9CC</color>
+
+    <!-- Agrega estos dos para que el adaptador no marque error -->
+    <color name="color_favorito">#E63946</color> <!-- Rojo para el corazón -->
+    <color name="color_gris_icono">#B0B0B0</color> <!-- Gris para el corazón vacío -->
 </resources>

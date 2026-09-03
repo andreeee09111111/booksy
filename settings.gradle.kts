@@ -1,18 +1,14 @@
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
-}
-plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+    plugins {
+        id("com.android.application") version "8.5.0"
+        id("org.jetbrains.kotlin.android") version "1.9.22"
+        id("org.jetbrains.kotlin.kapt") version "1.9.22"   // ← Necesario para el plugin kapt
+    }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -21,7 +17,5 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-
-rootProject.name = "Booksy"
+rootProject.name = "booksy66"
 include(":app")
- 

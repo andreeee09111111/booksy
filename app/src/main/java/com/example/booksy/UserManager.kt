@@ -1,92 +1,76 @@
 package com.example.booksy
 
 import java.io.File
+import java.security.MessageDigest
 
-// Objeto (singleton) que implementa la interfaz
 object UserManager : Autenticable {
-    // Colección (lista) para almacenar datos de usuario
     private val listaUsuarios: MutableList<Usuario> = mutableListOf()
 
-    // ===== FUNCIONES CON PARÁMETROS Y RETORNO =====
+    // ARCHIVO PERSISTENTE (Singleton)
+    private lateinit var archivoTxt: File
 
-    // Función 1: Registrar usuario - retorna Boolean
+    // Inicialización: carga datos del archivo al abrir la app
+    fun inicializarArchivo(archivo: File) {
+        archivoTxt = archivo
+        if (!archivo.exists()) archivo.createNewFile()
+        cargarUsuariosDesdeArchivo()
+    }
+
+    private fun cargarUsuariosDesdeArchivo() {
+        listaUsuarios.clear()
+        archivoTxt.readLines().forEach { linea ->
+            if (linea.contains(":")) {
+                val (nombre, hashPass) = linea.split(":")
+                listaUsuarios.add(Usuario(nombre, hashPass))
+            }
+        }
+    }
+
+    private fun hashPassword(password: String): String {
+        val bytes = MessageDigest.getInstance("SHA-256").digest(password.toByteArray())
+        return bytes.joinToString("") { "%02x".format(it) }
+    }
+
     fun registrarUsuario(usuario: String?, contraseña: String?): Boolean {
-        // Null seguro con operador Elvis
         val userSeguro = usuario?.trim() ?: ""
         val passSegura = contraseña?.trim() ?: ""
+        if (userSeguro.isEmpty() || passSegura.isEmpty()) return false
+        if (existeUsuarioConNombre(userSeguro)) return false
 
-        if (userSeguro.isEmpty() || passSegura.isEmpty()) {
-            return false
-        }
+        // Guardamos el HASH, no la contraseña
+        listaUsuarios.add(Usuario(userSeguro, hashPassword(passSegura)))
 
-        // Verificar si el usuario ya existe usando función de orden superior
-        if (existeUsuarioConNombre(userSeguro)) {
-            return false
-        }
-
-        val nuevoUsuario = Usuario(userSeguro, passSegura)
-        listaUsuarios.add(nuevoUsuario)
+        // Persistir en TXT
+        val contenido = listaUsuarios.joinToString("\n") { "${it.nombre}:${it.contraseña}" }
+        archivoTxt.writeText(contenido)
         return true
     }
 
-    // Función 2: Validar login - retorna Boolean
     fun validarLoginGuardar(usuario: String?, contrasena: String?, archivoTxt: File): Boolean {
-        // Manejo de excepciones
         return try {
             val u = usuario?.trim() ?: ""
             val p = contrasena?.trim() ?: ""
+            if (u.isEmpty() || p.isEmpty()) return false
 
-            if (u.isEmpty() || p.isEmpty()) {
-                return false
+            val hashInput = hashPassword(p)
+            val usuarioEncontrado = listaUsuarios.any { it.nombre == u && it.contraseña == hashInput }
+            if (usuarioEncontrado) {
+                // Guardamos la lista actualizada
+                archivoTxt.writeText(listaUsuarios.joinToString("\n") { it.toString() })
             }
-
-            // Buscar usuario usando función de orden superior
-            val usuarioEncontrado = listaUsuarios.find { it.nombre == u && it.contraseña == p }
-
-            val encontrado = usuarioEncontrado != null
-
-            if (encontrado) {
-                // Guardar datos en archivo
-                val nombres = obtenerNombresUsuarios()
-                archivoTxt.writeText(nombres.joinToString("\n"))
-            }
-
-            encontrado
+            usuarioEncontrado
         } catch (e: Exception) {
-            e.printStackTrace()
             false
         }
     }
 
-    // ===== FUNCIONES DE ORDEN SUPERIOR Y LAMBDAS =====
+    // Funciones de Orden Superior (sin cambios)
+    fun obtenerNombresUsuarios(): List<String> = listaUsuarios.map { it.nombre }
+    fun existeUsuarioConNombre(nombre: String): Boolean = listaUsuarios.any { it.nombre == nombre }
+    fun obtenerUsuariosPorInicial(letra: Char): List<Usuario> = filtrarUsuarios { it.nombre.startsWith(letra.toString(), true) }
+    fun filtrarUsuarios(criterio: (Usuario) -> Boolean): List<Usuario> = listaUsuarios.filter(criterio)
 
-    // Función de orden superior: filtrar usuarios por criterio
-    fun filtrarUsuarios(criterio: (Usuario) -> Boolean): List<Usuario> {
-        return listaUsuarios.filter(criterio)
-    }
-
-    // Función de orden superior: transformar datos (obtener solo nombres)
-    fun obtenerNombresUsuarios(): List<String> {
-        return listaUsuarios.map { it.nombre }
-    }
-
-    // Función de orden superior: verificar si existe usuario con cierto nombre
-    fun existeUsuarioConNombre(nombre: String): Boolean {
-        return listaUsuarios.any { it.nombre == nombre }
-    }
-
-    // Función con lambda: obtener usuarios por inicial
-    fun obtenerUsuariosPorInicial(letra: Char): List<Usuario> {
-        return filtrarUsuarios { it.nombre.startsWith(letra.toString(), ignoreCase = true) }
-    }
-
-    // Función con lambda: obtener usuarios que contengan cierta palabra
-    fun obtenerUsuariosQueContengan(palabra: String): List<Usuario> {
-        return filtrarUsuarios { it.nombre.contains(palabra, ignoreCase = true) }
-    }
-
-    // Implementación de la interfaz Autenticable
     override fun validarCredenciales(usuario: String, contraseña: String): Boolean {
-        return listaUsuarios.any { it.nombre == usuario && it.contraseña == contraseña }
+        return listaUsuarios.any { it.nombre == usuario && it.contraseña == hashPassword(contraseña) }
     }
 }

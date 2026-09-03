@@ -1,0 +1,4 @@
+<resources>
+    <item name="tvBookAuthor" type="id"/>
+    <item name="tvBookFavorite" type="id"/>
+</resources>

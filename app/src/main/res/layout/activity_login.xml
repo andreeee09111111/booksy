@@ -3,43 +3,51 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="24dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/fondo">
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="BOOKSY"
         android:textSize="32sp"
         android:textStyle="bold"
         android:layout_marginBottom="32dp"
-        android:textColor="@android:color/black" />
+        android:textColor="@color/letras" />
 
     <EditText
-        android:id="@+id/etUsuario"
+        android:id="@+id/Usuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Usuario" />
+        android:hint="Usuario"
+        android:textColor="@color/letras"
+        android:textColorHint="@color/texto_gris" />
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/Password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Contraseña"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColor="@color/letras"
+        android:textColorHint="@color/texto_gris"
+        android:layout_marginBottom="16dp" />
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ingresar"
+        android:textColor="@color/blanco"
         android:backgroundTint="@color/exterior_oscuro"/>
 
     <Button
-        android:id="@+id/btnRegister"
+        android:id="@+id/Register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Registrar"
+        android:textColor="@color/blanco"
         android:backgroundTint="@color/exterior_oscuro"/>
 
 </LinearLayout>

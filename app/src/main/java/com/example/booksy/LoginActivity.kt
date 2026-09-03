@@ -14,25 +14,23 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val etUsuario = findViewById<EditText>(R.id.etUsuario)
-        val etPassword = findViewById<EditText>(R.id.etPassword)
-        val btnLogin = findViewById<Button>(R.id.btnLogin)
-        val btnRegister = findViewById<Button>(R.id.btnRegister)
+        val etUsuario = findViewById<EditText>(R.id.Usuario)
+        val etPassword = findViewById<EditText>(R.id.Password)
+        val btnLogin = findViewById<Button>(R.id.Login)
+        val btnRegister = findViewById<Button>(R.id.Register)
 
         val archivoUsuariosTxt = File(filesDir, "usuarios_registrados.txt")
+        // ¡CRÍTICO! Inicializar el archivo antes de usarlo
+        UserManager.inicializarArchivo(archivoUsuariosTxt)
 
         btnRegister.setOnClickListener {
             val user = etUsuario.text.toString()
             val pass = etPassword.text.toString()
 
-            val registrado = UserManager.registrarUsuario(user, pass)
-
-            if (registrado) {
+            if (UserManager.registrarUsuario(user, pass)) {
                 Toast.makeText(this, "Usuario registrado correctamente", Toast.LENGTH_SHORT).show()
-
-                // Ejemplo de uso de función de orden superior
-                val usuarios = UserManager.obtenerNombresUsuarios()
-                Toast.makeText(this, "Usuarios registrados: ${usuarios.size}", Toast.LENGTH_LONG).show()
+                // Usar función de orden superior
+                Toast.makeText(this, "Usuarios con A: ${UserManager.obtenerUsuariosPorInicial('a').size}", Toast.LENGTH_LONG).show()
 
                 etUsuario.text.clear()
                 etPassword.text.clear()
@@ -45,22 +43,12 @@ class LoginActivity : AppCompatActivity() {
             val user = etUsuario.text.toString()
             val pass = etPassword.text.toString()
 
-            val loginExitoso = UserManager.validarLoginGuardar(user, pass, archivoUsuariosTxt)
-
-            if (loginExitoso) {
-                Toast.makeText(this, "¡Bienvenido! Datos guardados en TXT", Toast.LENGTH_SHORT).show()
-
-                // Ejemplo de uso de función de orden superior
-                val usuariosConA = UserManager.obtenerUsuariosPorInicial('a')
-                if (usuariosConA.isNotEmpty()) {
-                    Toast.makeText(this, "Usuarios con 'A': ${usuariosConA.size}", Toast.LENGTH_SHORT).show()
-                }
-
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
+            if (UserManager.validarLoginGuardar(user, pass, archivoUsuariosTxt)) {
+                Toast.makeText(this, "¡Bienvenido! Datos guardados", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {
-                Toast.makeText(this, "Credenciales incorrectas o usuario no registrado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
             }
         }
     }
