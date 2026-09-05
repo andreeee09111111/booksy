@@ -1,4 +1,5 @@
 <resources>
     <item name="tvBookAuthor" type="id"/>
     <item name="tvBookFavorite" type="id"/>
+    <item name="fragmentContainer" type="id"/>
 </resources>

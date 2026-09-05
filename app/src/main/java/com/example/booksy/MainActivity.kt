@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.example.booksy.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -21,14 +22,11 @@ class MainActivity : AppCompatActivity() {
         pagerAdapter = MainPagerAdapter(this)
         binding.viewPager.adapter = pagerAdapter
 
-
         resaltarBoton(0)
-
 
         binding.navInicio.setOnClickListener { irAPagina(0) }
         binding.navExplorar.setOnClickListener { irAPagina(1) }
         binding.navBiblioteca.setOnClickListener { irAPagina(2) }
-
 
         binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -40,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun irAPagina(position: Int) {
         ocultarBusqueda()
-        binding.viewPager.setCurrentItem(position, true) // true = con animación de deslizamiento
+        binding.viewPager.setCurrentItem(position, true)
         resaltarBoton(position)
     }
 
@@ -49,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         irAPagina(1)
     }
 
-    // Función pública para ir a Búsqueda (fuera del ViewPager, deselecciona todo)
+    // Función pública para ir a Búsqueda
     fun irABuscar() {
         binding.searchContainer.visibility = android.view.View.VISIBLE
         supportFragmentManager.beginTransaction()

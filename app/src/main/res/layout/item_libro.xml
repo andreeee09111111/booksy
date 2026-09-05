@@ -30,9 +30,9 @@
                 android:layout_height="32dp"
                 android:layout_gravity="top|end"
                 android:layout_margin="8dp"
-                android:background="@drawable/circulo_boton"
+                android:background="@drawable/circulo_semitransparente"
                 android:padding="6dp"
-                android:src="@drawable/ic_heart_outline" />
+                android:src="@drawable/ic_heart" />
         </FrameLayout>
 
         <LinearLayout

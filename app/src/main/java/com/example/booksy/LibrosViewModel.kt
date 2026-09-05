@@ -3,14 +3,17 @@ package com.example.booksy
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LibrosViewModel(private val repository: LibrosRepository) : ViewModel() {
+@HiltViewModel
+class LibrosViewModel @Inject constructor(
+    private val repository: LibrosRepository
+) : ViewModel() {
 
     val allBooks: Flow<List<Book>> = repository.allLibros
-
-    // ===== NUEVO: Obtener favoritos del repositorio =====
     val favoriteBooks: Flow<List<Book>> = repository.favoriteBooks
 
     fun insert(book: Book) = viewModelScope.launch {
@@ -25,7 +28,6 @@ class LibrosViewModel(private val repository: LibrosRepository) : ViewModel() {
         repository.delete(book)
     }
 
-    // ===== FUNCIÓN PARA FAVORITOS =====
     fun toggleFavorite(book: Book) = viewModelScope.launch {
         val updatedBook = book.copy(esFavorito = !book.esFavorito)
         repository.update(updatedBook)

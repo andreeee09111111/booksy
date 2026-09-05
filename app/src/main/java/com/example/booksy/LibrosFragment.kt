@@ -5,19 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.booksy.databinding.FragmentExplorarBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class LibrosFragment : Fragment() {
 
     private var _binding: FragmentExplorarBinding? = null
     private val binding get() = _binding!!
     private lateinit var librosAdapter: LibrosAdapter
-    private lateinit var viewModel: LibrosViewModel
+    private val viewModel: LibrosViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,12 +32,6 @@ class LibrosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // Inicializar ViewModel con Room
-        val database = AppDatabase.getInstance(requireContext())
-        val repository = LibrosRepository(database.librosDao())
-        val factory = LibrosViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, factory)[LibrosViewModel::class.java]
 
         setupRecyclerView()
         observeBooks()

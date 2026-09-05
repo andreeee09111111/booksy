@@ -96,6 +96,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
     implementation("androidx.viewpager2:viewpager2:1.1.0")
+    implementation("io.coil-kt:coil-compose:2.6.0")
 
     // Hilt
     implementation(libs.hilt.android)
