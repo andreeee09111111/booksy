@@ -57,15 +57,6 @@
                     android:src="@drawable/ic_search"
                     android:contentDescription="Buscar" />
 
-                <ImageView
-                    android:id="@+id/ivProfile"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/menu_perfil_svg"
-                    android:contentDescription="Perfil"
-                    android:clipToOutline="true"
-                    android:background="@drawable/circulo_boton"/>
             </LinearLayout>
 
         </LinearLayout>
