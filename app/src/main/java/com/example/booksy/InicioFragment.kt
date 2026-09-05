@@ -76,7 +76,7 @@ class InicioFragment : Fragment() {
     private fun mostrarDestacado(books: List<Book>) {
         if (books.isEmpty()) return
 
-        val destacado = books.firstOrNull { it.esFavorito } ?: books.maxByOrNull { it.calificacion }!!
+        val destacado = books.maxByOrNull { it.calificacion } ?: return
 
         val card = binding.incluirDestacado
         card.tvCategoriaLibro.text = destacado.categoria.uppercase()
