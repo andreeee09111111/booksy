@@ -1,13 +1,12 @@
 package com.example.booksy.di
 
-import android.content.Context
-import com.example.booksy.AppDatabase
-import com.example.booksy.LibrosDao
-import com.example.booksy.LibrosRepository
+import com.example.booksy.AuthRepository
+import com.example.booksy.BookRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -17,18 +16,21 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
-        return AppDatabase.getInstance(context)
-    }
+    fun provideAuth(): FirebaseAuth = FirebaseAuth.getInstance()
 
     @Provides
-    fun provideLibrosDao(database: AppDatabase): LibrosDao {
-        return database.librosDao()
+    @Singleton
+    fun provideFirestore(): FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(auth: FirebaseAuth, firestore: FirebaseFirestore): AuthRepository {
+        return AuthRepository(auth, firestore)
     }
 
     @Provides
     @Singleton
-    fun provideLibrosRepository(dao: LibrosDao): LibrosRepository {
-        return LibrosRepository(dao)
+    fun provideBookRepository(firestore: FirebaseFirestore): BookRepository {
+        return BookRepository(firestore)
     }
 }

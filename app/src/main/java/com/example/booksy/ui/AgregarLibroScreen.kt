@@ -1,182 +1,135 @@
 package com.example.booksy.ui
 
-import android.content.Intent
-import android.net.Uri
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import com.example.booksy.Book
 import com.example.booksy.LibrosViewModel
-import com.example.booksy.R
 
-private val VerdeBotones = Color(0xFF135A58)
+private val categorias = listOf("Fantasía", "Realismo mágico", "No ficción", "Misterio", "Clásico", "Romance", "Juvenil")
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AgregarLibroScreen(
     onGuardado: () -> Unit,
     viewModel: LibrosViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
-
     var titulo by remember { mutableStateOf("") }
     var autor by remember { mutableStateOf("") }
-    var categoria by remember { mutableStateOf("") }
-    var calificacion by remember { mutableStateOf("") }
-    var portadaUri by remember { mutableStateOf<Uri?>(null) }
-
-    // ===== Estados de error para validación en tiempo real =====
-    var errorTitulo by remember { mutableStateOf<String?>(null) }
-    var errorAutor by remember { mutableStateOf<String?>(null) }
-    var errorCalificacion by remember { mutableStateOf<String?>(null) }
-    var formularioValido by remember { mutableStateOf(false) }
-
-    // ===== Validación reactiva: se ejecuta cada vez que cambian los campos =====
-    LaunchedEffect(titulo) {
-        errorTitulo = if (titulo.isNotEmpty() && titulo.trim().isEmpty()) {
-            "El título no puede ser solo espacios"
-        } else null
-    }
-
-    LaunchedEffect(autor) {
-        errorAutor = if (autor.isNotEmpty() && autor.trim().isEmpty()) {
-            "El autor no puede ser solo espacios"
-        } else null
-    }
-
-    LaunchedEffect(calificacion) {
-        errorCalificacion = when {
-            calificacion.isEmpty() -> null
-            calificacion.toFloatOrNull() == null -> "Debe ser un número"
-            (calificacion.toFloatOrNull() ?: -1f) !in 0f..5f -> "Debe estar entre 0 y 5"
-            else -> null
-        }
-    }
-
-    LaunchedEffect(titulo, autor, errorTitulo, errorAutor, errorCalificacion) {
-        formularioValido = titulo.isNotBlank() &&
-                autor.isNotBlank() &&
-                errorTitulo == null &&
-                errorAutor == null &&
-                errorCalificacion == null
-    }
-
-    val seleccionarImagenLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument()
-    ) { uri: Uri? ->
-        uri?.let {
-            try {
-                context.contentResolver.takePersistableUriPermission(
-                    it,
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION
-                )
-            } catch (e: SecurityException) { }
-            portadaUri = it
-        }
-    }
+    var categoria by remember { mutableStateOf(categorias.first()) }
+    var expandidoCategoria by remember { mutableStateOf(false) }
+    var calificacion by remember { mutableStateOf(0) }
+    var sinopsis by remember { mutableStateOf("") }
+    var portadaUrl by remember { mutableStateOf("") }
+    val guardando by viewModel.guardando.collectAsState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .background(FondoClaro)
+            .padding(16.dp)
     ) {
         Text("Agregar libro", style = MaterialTheme.typography.headlineSmall)
+        Spacer(Modifier.height(16.dp))
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(160.dp)
-                .align(Alignment.CenterHorizontally)
-                .semantics { contentDescription = "Vista previa de la portada del libro" },
-            contentAlignment = Alignment.Center
+        OutlinedTextField(
+            value = titulo, onValueChange = { titulo = it },
+            label = { Text("Título") }, modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(Modifier.height(12.dp))
+        OutlinedTextField(
+            value = autor, onValueChange = { autor = it },
+            label = { Text("Autor") }, modifier = Modifier.fillMaxWidth()
+        )
+        Spacer(Modifier.height(12.dp))
+
+        ExposedDropdownMenuBox(
+            expanded = expandidoCategoria,
+            onExpandedChange = { expandidoCategoria = it }
         ) {
-            AsyncImage(
-                model = portadaUri ?: R.drawable.portada_destacado,
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+            OutlinedTextField(
+                value = categoria,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Categoría") },
+                modifier = Modifier.fillMaxWidth().menuAnchor()
             )
+            ExposedDropdownMenu(
+                expanded = expandidoCategoria,
+                onDismissRequest = { expandidoCategoria = false }
+            ) {
+                categorias.forEach { opcion ->
+                    DropdownMenuItem(text = { Text(opcion) }, onClick = {
+                        categoria = opcion
+                        expandidoCategoria = false
+                    })
+                }
+            }
         }
 
-        Button(
-            onClick = { seleccionarImagenLauncher.launch(arrayOf("image/*")) },
-            colors = ButtonDefaults.buttonColors(containerColor = VerdeBotones),
-            modifier = Modifier.semantics { contentDescription = "Seleccionar imagen de portada" }
-        ) {
-            Text("Seleccionar portada")
+        Spacer(Modifier.height(12.dp))
+        Text("Calificación")
+        Row {
+            for (estrella in 1..5) {
+                IconButton(onClick = { calificacion = estrella }) {
+                    Icon(
+                        imageVector = Icons.Filled.Star,
+                        contentDescription = "$estrella estrellas",
+                        tint = if (estrella <= calificacion) TealPrincipal else Color.LightGray
+                    )
+                }
+            }
         }
 
+        Spacer(Modifier.height(12.dp))
         OutlinedTextField(
-            value = titulo,
-            onValueChange = { titulo = it },
-            label = { Text("Título") },
-            isError = errorTitulo != null,
-            supportingText = { errorTitulo?.let { Text(it) } },
-            modifier = Modifier
-                .fillMaxWidth()
-                .semantics { contentDescription = "Campo de título del libro" }
+            value = portadaUrl,
+            onValueChange = { portadaUrl = it },
+            label = { Text("Link de la portada") },
+            placeholder = { Text("https://...") },
+            singleLine = true,
+            modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(Modifier.height(12.dp))
         OutlinedTextField(
-            value = autor,
-            onValueChange = { autor = it },
-            label = { Text("Autor") },
-            isError = errorAutor != null,
-            supportingText = { errorAutor?.let { Text(it) } },
-            modifier = Modifier
-                .fillMaxWidth()
-                .semantics { contentDescription = "Campo de autor del libro" }
+            value = sinopsis,
+            onValueChange = { sinopsis = it },
+            label = { Text("Sinopsis") },
+            placeholder = { Text("Escribe una descripción del libro...") },
+            minLines = 4,
+            modifier = Modifier.fillMaxWidth()
         )
-        OutlinedTextField(
-            value = categoria,
-            onValueChange = { categoria = it },
-            label = { Text("Categoría") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .semantics { contentDescription = "Campo de categoría del libro" }
-        )
-        OutlinedTextField(
-            value = calificacion,
-            onValueChange = { calificacion = it },
-            label = { Text("Calificación (0 a 5)") },
-            isError = errorCalificacion != null,
-            supportingText = { errorCalificacion?.let { Text(it) } },
-            modifier = Modifier
-                .fillMaxWidth()
-                .semantics { contentDescription = "Campo de calificación del libro, de cero a cinco" }
-        )
+
+        Spacer(Modifier.height(24.dp))
 
         Button(
             onClick = {
-                val nuevoLibro = Book(
-                    titulo = titulo.trim(),
-                    autor = autor.trim(),
-                    categoria = categoria.trim().ifEmpty { "General" },
-                    calificacion = (calificacion.toFloatOrNull() ?: 0f).coerceIn(0f, 5f),
-                    esFavorito = false,
-                    portada = portadaUri?.toString()
+                viewModel.agregarLibro(
+                    titulo = titulo,
+                    autor = autor,
+                    categoria = categoria,
+                    calificacion = calificacion.toDouble(),
+                    sinopsis = sinopsis,
+                    portadaUrl = portadaUrl,
+                    onListo = onGuardado
                 )
-                viewModel.insert(nuevoLibro)
-                onGuardado()
             },
-            enabled = formularioValido,
-            colors = ButtonDefaults.buttonColors(containerColor = VerdeBotones),
-            modifier = Modifier
-                .fillMaxWidth()
-                .semantics { contentDescription = "Guardar nuevo libro" }
+            enabled = titulo.isNotBlank() && autor.isNotBlank() && !guardando,
+            colors = ButtonDefaults.buttonColors(containerColor = TealPrincipal),
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Guardar")
+            if (guardando) {
+                CircularProgressIndicator(modifier = Modifier.size(18.dp), color = Color.White)
+            } else {
+                Text("Guardar libro")
+            }
         }
     }
 }
