@@ -144,6 +144,7 @@ fun BooksyNavHost() {
                             2 -> BibliotecaScreen(onVerLibro = { id -> navController.navigate("detalle/$id") })
                             3 -> CuentaScreen(
                                 onIrAAdmin = { navController.navigate("admin") },
+                                onIrABiblioteca = { scope.launch { pagerState.animateScrollToPage(2) } },
                                 onCerrarSesion = { authViewModel.cerrarSesion() }
                             )
                         }

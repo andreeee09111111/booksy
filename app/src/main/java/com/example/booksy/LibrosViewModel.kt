@@ -120,6 +120,9 @@ class LibrosViewModel @Inject constructor(
 
                 onListo()
 
+            } catch (e: Exception) {
+                println("❌ ERROR AL ACTUALIZAR LIBRO: ${e.message}")
+                e.printStackTrace()
             } finally {
                 _guardando.value = false
             }
