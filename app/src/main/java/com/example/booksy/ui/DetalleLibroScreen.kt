@@ -52,6 +52,7 @@ fun DetalleLibroScreen(
         }
     }
 
+
     Box(Modifier.fillMaxSize().background(FondoClaro)) {
         when {
             cargando -> {
