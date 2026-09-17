@@ -269,6 +269,7 @@ private fun VisorImagenConZoom(
                     }
             )
 
+
             IconButton(
                 onClick = onCerrar,
                 modifier = Modifier
