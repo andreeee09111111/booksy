@@ -281,6 +281,7 @@ private fun VisorImagenConZoom(
                 Icon(Icons.Filled.Close, contentDescription = "Cerrar", tint = Color.White)
             }
 
+
             Text(
                 "Pellizca para hacer zoom · doble toque para restablecer",
                 color = Color.White.copy(alpha = 0.8f),
