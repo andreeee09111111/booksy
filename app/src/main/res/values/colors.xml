@@ -7,7 +7,14 @@
     <color name="blanco">#FFFFFF</color>
     <color name="linea">#E3D9CC</color>
 
-    <!-- Agrega estos dos para que el adaptador no marque error -->
+    <!-- Adaptador e iconos -->
     <color name="color_favorito">#E63946</color> <!-- Rojo para el corazón -->
     <color name="color_gris_icono">#B0B0B0</color> <!-- Gris para el corazón vacío -->
+
+    <!-- Colores para el tema de Alto Contraste (Colorblind) -->
+    <color name="crema_neutro">#F4F1EA</color>
+    <color name="negro_puro">#121212</color>
+    <color name="azul_cobalto">#1A3B5C</color>
+    <color name="ambar_calido">#D97706</color>
+    <color name="teal_medio">#0E797C</color>
 </resources>
