@@ -44,7 +44,10 @@ private val rutasConBottomBar = setOf(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun BooksyNavHost() {
+fun BooksyNavHost(
+    isColorblind: Boolean = false,
+    onThemeChange: (Boolean) -> Unit = {}
+) {
     val navController = rememberNavController()
     val authViewModel: AuthViewModel = hiltViewModel()
     val librosViewModel: LibrosViewModel = hiltViewModel()
@@ -113,14 +116,17 @@ fun BooksyNavHost() {
             NavHost(navController = navController, startDestination = "cargando") {
 
                 composable("cargando") {
+                    val backgroundColor = themeColor(R.attr.appBackgroundColor)
+                    val primaryColor = themeColor(R.attr.appPrimaryColor)
+
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(FondoClaro),
+                            .background(backgroundColor),
                         contentAlignment = Alignment.Center
                     ) {
                         CircularProgressIndicator(
-                            color = TealPrincipal
+                            color = primaryColor
                         )
                     }
                 }
@@ -145,7 +151,9 @@ fun BooksyNavHost() {
                             3 -> CuentaScreen(
                                 onIrAAdmin = { navController.navigate("admin") },
                                 onIrABiblioteca = { scope.launch { pagerState.animateScrollToPage(2) } },
-                                onCerrarSesion = { authViewModel.cerrarSesion() }
+                                onCerrarSesion = { authViewModel.cerrarSesion() },
+                                isColorblind = isColorblind,
+                                onThemeChange = onThemeChange
                             )
                         }
                     }
@@ -213,6 +221,8 @@ private fun BusquedaGlobalOverlay(
     onSeleccionar: (String) -> Unit
 ) {
     var texto by remember { mutableStateOf("") }
+    val backgroundColor = themeColor(R.attr.appBackgroundColor)
+
     val resultados = if (texto.isBlank()) emptyList() else libros.filter {
         it.titulo.contains(texto, ignoreCase = true) ||
                 it.autor.contains(texto, ignoreCase = true) ||
@@ -222,7 +232,7 @@ private fun BusquedaGlobalOverlay(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FondoClaro)
+            .background(backgroundColor)
             .padding(16.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
