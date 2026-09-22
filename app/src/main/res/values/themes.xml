@@ -1,9 +1,21 @@
 <resources>
-    <!-- Base application theme. -->
+    <!-- Base application theme -->
     <style name="Base.Theme.Booksy" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="appBackgroundColor">@color/fondo</item>
+        <item name="appTextColor">@color/letras</item>
+        <item name="appPrimaryColor">@color/exterior_oscuro</item>
+        <item name="appAccentColor">@color/teal_medio</item>
+        <item name="appCardBgColor">@color/circulo_gris</item>
     </style>
 
     <style name="Theme.Booksy" parent="Base.Theme.Booksy" />
+
+    <!-- Theme for colorblind -->
+    <style name="Theme.Booksy.Colorblind" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="appBackgroundColor">@color/crema_neutro</item>
+        <item name="appTextColor">@color/negro_puro</item>
+        <item name="appPrimaryColor">@color/azul_cobalto</item>
+        <item name="appAccentColor">@color/ambar_calido</item>
+        <item name="appCardBgColor">#E0DDD5</item>
+    </style>
 </resources>
