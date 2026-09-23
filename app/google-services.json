@@ -12,7 +12,20 @@
           "package_name": "com.example.booksy"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "53657908194-742vqor4gjth25eq4vjvddcd42hlmhfs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.booksy",
+            "certificate_hash": "b0b47cde446bf8a3f119ad5a99fcc5ae13b43fd4"
+          }
+        },
+        {
+          "client_id": "53657908194-f2v7qm0s06tnh7d0jaao3pru9ihs59gn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD0gh0hhTslnsh0BTQVh8J0zLnE9l3QHPM"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "53657908194-f2v7qm0s06tnh7d0jaao3pru9ihs59gn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
