@@ -31,7 +31,7 @@ fun BibliotecaScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FondoClaro)
+            .background(themeColor(R.attr.appBackgroundColor))
             .padding(16.dp)
     ) {
         Text("Mi Biblioteca", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)

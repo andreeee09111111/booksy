@@ -40,7 +40,7 @@ fun ExplorarScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FondoClaro)
+            .background(themeColor(R.attr.appBackgroundColor))
             .padding(16.dp)
     ) {
         Text("Explorar", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
@@ -58,7 +58,7 @@ fun ExplorarScreen(
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedBorderColor = Color.LightGray,
-                focusedBorderColor = TealPrincipal
+                focusedBorderColor = themeColor(R.attr.appPrimaryColor)
             ),
             modifier = Modifier.fillMaxWidth()
         )

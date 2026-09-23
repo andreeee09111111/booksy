@@ -19,6 +19,7 @@ import com.example.booksy.LibrosViewModel
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.imePadding
+import com.example.booksy.R
 
 private const val LIMITE_SINOPSIS = 1200
 private val AmarilloEstrella = Color(0xFFFFC107)
@@ -42,7 +43,7 @@ fun AgregarLibroScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FondoClaro)
+            .background(themeColor(R.attr.appBackgroundColor))
             .verticalScroll(rememberScrollState())
             .imePadding()
             .padding(16.dp)
@@ -140,7 +141,7 @@ fun AgregarLibroScreen(
             },
             enabled = formularioValido,
             shape = RoundedCornerShape(50),
-            colors = ButtonDefaults.buttonColors(containerColor = TealPrincipal),
+            colors = ButtonDefaults.buttonColors(containerColor = themeColor(R.attr.appPrimaryColor)),
             modifier = Modifier.fillMaxWidth().height(52.dp)
         ) {
             if (guardando) CircularProgressIndicator(modifier = Modifier.size(18.dp), color = Color.White)

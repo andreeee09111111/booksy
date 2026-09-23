@@ -63,4 +63,13 @@ class AuthViewModel @Inject constructor(
         _estado.value = AuthState.SinSesion
     }
 
+    fun iniciarSesionConGoogle(context: android.content.Context) {
+        viewModelScope.launch {
+            _mensajeError.value = null
+            val resultado = authRepository.iniciarSesionConGoogle(context)
+            if (resultado.isSuccess) revisarSesion()
+            else _mensajeError.value = resultado.exceptionOrNull()?.localizedMessage ?: "No se pudo iniciar sesión con Google"
+        }
+    }
+
 }

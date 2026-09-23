@@ -16,6 +16,7 @@ import com.example.booksy.LibrosViewModel
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.imePadding
+import com.example.booksy.R
 
 private val categoriasEditar = listOf("Fantasía", "Realismo mágico", "No ficción", "Misterio", "Clásico", "Romance", "Juvenil")
 private val AmarilloEstrella = Color(0xFFFFC107)
@@ -64,7 +65,7 @@ fun EditarLibroScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FondoClaro)
+            .background(themeColor(R.attr.appBackgroundColor))
             .verticalScroll(rememberScrollState())
             .imePadding()
             .padding(16.dp)
@@ -134,7 +135,7 @@ fun EditarLibroScreen(
                 )
             },
             enabled = titulo.isNotBlank() && autor.isNotBlank() && !guardando,
-            colors = ButtonDefaults.buttonColors(containerColor = TealPrincipal),
+            colors = ButtonDefaults.buttonColors(containerColor = themeColor(R.attr.appPrimaryColor)),
             modifier = Modifier.fillMaxWidth()
         ) {
             if (guardando) CircularProgressIndicator(modifier = Modifier.size(18.dp), color = Color.White)

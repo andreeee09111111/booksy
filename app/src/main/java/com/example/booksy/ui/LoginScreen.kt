@@ -22,13 +22,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.booksy.AuthViewModel
 import com.example.booksy.R
 
-val TealPrincipal = Color(0xFF135A58)
-val FondoClaro = Color(0xFFF5EFEB)
 
 @Composable
 fun LoginScreen(
     viewModel: AuthViewModel
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
     var usuario by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
     var mostrarContrasena by remember { mutableStateOf(false) }
@@ -37,7 +36,7 @@ fun LoginScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FondoClaro)
+            .background(themeColor(R.attr.appBackgroundColor))
             .padding(horizontal = 32.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -63,7 +62,7 @@ fun LoginScreen(
                 unfocusedContainerColor = Color.Transparent,
                 focusedContainerColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Gray,
-                focusedIndicatorColor = TealPrincipal
+                focusedIndicatorColor = themeColor(R.attr.appPrimaryColor)
             ),
             modifier = Modifier.fillMaxWidth()
         )
@@ -91,7 +90,7 @@ fun LoginScreen(
                 unfocusedContainerColor = Color.Transparent,
                 focusedContainerColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Gray,
-                focusedIndicatorColor = TealPrincipal
+                focusedIndicatorColor = themeColor(R.attr.appPrimaryColor)
             ),
             modifier = Modifier.fillMaxWidth()
         )
@@ -107,7 +106,7 @@ fun LoginScreen(
             onClick = { viewModel.iniciarSesion(usuario, contrasena) },
             enabled = usuario.isNotBlank() && contrasena.isNotBlank(),
             shape = RoundedCornerShape(50),
-            colors = ButtonDefaults.buttonColors(containerColor = TealPrincipal),
+            colors = ButtonDefaults.buttonColors(containerColor = themeColor(R.attr.appPrimaryColor)),
             modifier = Modifier.fillMaxWidth().height(52.dp)
         ) { Text("Ingresar", color = Color.White) }
 
@@ -117,8 +116,16 @@ fun LoginScreen(
             onClick = { viewModel.registrar(usuario, contrasena) },
             enabled = usuario.isNotBlank() && contrasena.isNotBlank(),
             shape = RoundedCornerShape(50),
-            colors = ButtonDefaults.buttonColors(containerColor = TealPrincipal),
+            colors = ButtonDefaults.buttonColors(containerColor = themeColor(R.attr.appPrimaryColor)),
             modifier = Modifier.fillMaxWidth().height(52.dp)
         ) { Text("Registrar", color = Color.White) }
+
+        Spacer(Modifier.height(16.dp))
+
+        OutlinedButton(
+            onClick = { viewModel.iniciarSesionConGoogle(context) },
+            shape = RoundedCornerShape(50),
+            modifier = Modifier.fillMaxWidth().height(52.dp)
+        ) { Text("Iniciar sesión con Google") }
     }
 }

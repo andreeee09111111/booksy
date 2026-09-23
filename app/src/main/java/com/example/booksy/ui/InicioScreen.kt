@@ -51,7 +51,7 @@ fun InicioScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FondoClaro)
+            .background(themeColor(R.attr.appBackgroundColor))
     ) {
         // Encabezado propio de esta pantalla, con la lupa que abre la búsqueda global
         Row(
@@ -106,7 +106,7 @@ fun InicioScreen(
                             onClick = { categoriaSeleccionada = categoria },
                             label = { Text(categoria) },
                             colors = FilterChipDefaults.filterChipColors(
-                                selectedContainerColor = TealPrincipal,
+                                selectedContainerColor = themeColor(R.attr.appPrimaryColor),
                                 selectedLabelColor = Color.White
                             )
                         )
@@ -154,7 +154,7 @@ private fun TarjetaDestacada(libro: Book, onClick: () -> Unit) {
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
-                .background(TealPrincipal)
+                .background(themeColor(R.attr.appPrimaryColor))
         )
         Box(
             modifier = Modifier
@@ -229,7 +229,7 @@ fun TarjetaLibroConCorazon(
         }
         Column(modifier = Modifier.padding(10.dp)) {
             if (libro.categoria.isNotBlank()) {
-                Text(libro.categoria.uppercase(), style = MaterialTheme.typography.labelSmall, color = TealPrincipal)
+                Text(libro.categoria.uppercase(), style = MaterialTheme.typography.labelSmall, color = themeColor(R.attr.appPrimaryColor))
             }
             Text(
                 libro.titulo,
@@ -279,7 +279,7 @@ fun FilaEstrellas(calificacion: Double, colorTexto: Color = Color.Black) {
             Icon(
                 imageVector = Icons.Filled.Star,
                 contentDescription = null,
-                tint = if (index < llenas) TealPrincipal else Color.LightGray,
+                tint = if (index < llenas) themeColor(R.attr.appPrimaryColor) else Color.LightGray,
                 modifier = Modifier.size(14.dp)
             )
         }

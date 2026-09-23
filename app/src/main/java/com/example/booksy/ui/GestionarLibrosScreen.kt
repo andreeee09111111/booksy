@@ -43,7 +43,7 @@ fun GestionarLibrosScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FondoClaro)
+            .background(themeColor(R.attr.appBackgroundColor))
             .padding(16.dp)
     ) {
         Row(
@@ -60,7 +60,7 @@ fun GestionarLibrosScreen(
             Button(
                 onClick = onAgregarLibro,
                 shape = RoundedCornerShape(50),
-                colors = ButtonDefaults.buttonColors(containerColor = TealPrincipal)
+                colors = ButtonDefaults.buttonColors(containerColor = themeColor(R.attr.appPrimaryColor))
             ) {
                 Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(16.dp))
                 Spacer(Modifier.width(4.dp))
@@ -98,14 +98,14 @@ fun GestionarLibrosScreen(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             if (libro.categoria.isNotBlank()) {
-                                Text(libro.categoria.uppercase(), style = MaterialTheme.typography.labelSmall, color = TealPrincipal)
+                                Text(libro.categoria.uppercase(), style = MaterialTheme.typography.labelSmall, color = themeColor(R.attr.appPrimaryColor))
                             }
                             Text(libro.titulo, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
                             Text(libro.autor, style = MaterialTheme.typography.bodySmall, color = Color.Gray)
                             FilaEstrellas(calificacion = libro.calificacion)
                         }
                         IconButton(onClick = { onEditarLibro(libro.id) }) {
-                            Icon(Icons.Filled.Edit, contentDescription = "Editar ${libro.titulo}", tint = TealPrincipal)
+                            Icon(Icons.Filled.Edit, contentDescription = "Editar ${libro.titulo}", tint = themeColor(R.attr.appPrimaryColor))
                         }
                         IconButton(onClick = { libroAEliminar = libro }) {
                             Icon(

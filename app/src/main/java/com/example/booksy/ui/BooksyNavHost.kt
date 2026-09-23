@@ -62,6 +62,7 @@ fun BooksyNavHost(
     var mostrarBusqueda by remember { mutableStateOf(false) }
 
     LaunchedEffect(estadoAuth) {
+        kotlinx.coroutines.android.awaitFrame()
         when (estadoAuth) {
             is AuthState.SinSesion -> {
                 if (rutaActual != "login") {

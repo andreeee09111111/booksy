@@ -53,11 +53,11 @@ fun DetalleLibroScreen(
     }
 
 
-    Box(Modifier.fillMaxSize().background(FondoClaro)) {
+    Box(Modifier.fillMaxSize().background(themeColor(R.attr.appBackgroundColor))) {
         when {
             cargando -> {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(color = TealPrincipal)
+                    CircularProgressIndicator(color = themeColor(R.attr.appPrimaryColor))
                 }
             }
             libro == null -> {
@@ -92,7 +92,7 @@ fun DetalleLibroScreen(
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .fillMaxSize()
-                                .background(TealPrincipal)
+                                .background(themeColor(R.attr.appPrimaryColor))
                                 .clickable { mostrarZoom = true }
                         )
                         Box(
@@ -128,12 +128,12 @@ fun DetalleLibroScreen(
                             Box(
                                 modifier = Modifier
                                     .clip(RoundedCornerShape(50))
-                                    .background(TealPrincipal.copy(alpha = 0.12f))
+                                    .background(themeColor(R.attr.appPrimaryColor).copy(alpha = 0.12f))
                                     .padding(horizontal = 10.dp, vertical = 4.dp)
                             ) {
                                 Text(
                                     libroActual.categoria.uppercase(),
-                                    color = TealPrincipal,
+                                    color = themeColor(R.attr.appPrimaryColor),
                                     style = MaterialTheme.typography.labelSmall,
                                     fontWeight = FontWeight.Bold
                                 )

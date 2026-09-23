@@ -1,4 +1,4 @@
-package com.example.booksy.ui
+ package com.example.booksy.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.booksy.R
 
 @Composable
 fun AdminScreen(
@@ -28,7 +29,7 @@ fun AdminScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(FondoClaro)
+            .background(themeColor(R.attr.appBackgroundColor))
             .padding(16.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -96,7 +97,7 @@ private fun OpcionAdmin(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(icono, contentDescription = null, tint = TealPrincipal, modifier = Modifier.size(24.dp))
+            Icon(icono, contentDescription = null, tint = themeColor(R.attr.appPrimaryColor), modifier = Modifier.size(24.dp))
             Spacer(Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(titulo, style = MaterialTheme.typography.titleMedium)
