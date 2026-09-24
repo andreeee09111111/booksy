@@ -13,11 +13,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.booksy.ui.BooksyNavHost
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Registrar evento de prueba al iniciar la aplicación
+        analyticsHelper.logEvent("app_open_test")
+        analyticsHelper.logScreenView("MainActivity", "MainActivity")
+
         setContent {
             // Estado para recordar si el modo alto contraste está activo
             var isColorblindMode by rememberSaveable { mutableStateOf(false) }
