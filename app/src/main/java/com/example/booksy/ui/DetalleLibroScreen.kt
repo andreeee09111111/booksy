@@ -32,6 +32,7 @@ import coil.compose.AsyncImage
 import com.example.booksy.Book
 import com.example.booksy.LibrosViewModel
 import com.example.booksy.R
+import com.example.booksy.AnalyticsViewModel
 
 @Composable
 fun DetalleLibroScreen(
@@ -39,6 +40,8 @@ fun DetalleLibroScreen(
     onVolver: () -> Unit,
     viewModel: LibrosViewModel = hiltViewModel()
 ) {
+    val analyticsViewModel: AnalyticsViewModel = hiltViewModel()
+    LaunchedEffect(libroId) { analyticsViewModel.registrarPantalla("Detalle_$libroId") }
     val biblioteca by viewModel.biblioteca.collectAsState()
     var libro by remember { mutableStateOf<Book?>(null) }
     var cargando by remember { mutableStateOf(true) }

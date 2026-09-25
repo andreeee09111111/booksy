@@ -132,4 +132,14 @@ class AuthRepository(
             null
         }
     }
+
+    suspend fun actualizarTema(uid: String, nuevoTema: String) {
+        try {
+            firestore.collection("usuarios").document(uid)
+                .update("tema", nuevoTema)
+                .await()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 }

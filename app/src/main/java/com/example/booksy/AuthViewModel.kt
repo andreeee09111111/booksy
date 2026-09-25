@@ -31,11 +31,31 @@ class AuthViewModel @Inject constructor(
 
     fun revisarSesion() {
         viewModelScope.launch {
+            println("🔵 AUTH 1: iniciando revisión de sesión")
+
+            val usuarioFirebase = auth.currentUser
+
+            println("🔵 AUTH 2: currentUser = ${usuarioFirebase?.uid}")
             if (auth.currentUser == null) {
+                println("🟢 AUTH 3: NO hay sesión → SinSesion")
                 _estado.value = AuthState.SinSesion
+
             } else  {
+                println("🟡 AUTH 3: SÍ hay sesión → consultando Firestore")
                 val usuario = authRepository.obtenerUsuarioActual()
-                _estado.value = if (usuario != null) AuthState.ConSesion(usuario) else AuthState.SinSesion
+                println("🟡 AUTH 4: usuario Firestore = $usuario")
+                if (usuario != null) {
+
+                    println("🟢 AUTH 5: cambiando estado → ConSesion")
+
+                    _estado.value = AuthState.ConSesion(usuario)
+
+                } else {
+
+                    println("🔴 AUTH 5: usuario null → SinSesion")
+
+                    _estado.value = AuthState.SinSesion
+                }
             }
         }
     }
@@ -69,6 +89,16 @@ class AuthViewModel @Inject constructor(
             val resultado = authRepository.iniciarSesionConGoogle(context)
             if (resultado.isSuccess) revisarSesion()
             else _mensajeError.value = resultado.exceptionOrNull()?.localizedMessage ?: "No se pudo iniciar sesión con Google"
+        }
+    }
+
+    fun cambiarTema(nuevoTema: String) {
+        val estadoActual = _estado.value
+        if (estadoActual is AuthState.ConSesion) {
+            _estado.value = AuthState.ConSesion(estadoActual.usuario.copy(tema = nuevoTema)) // actualiza al instante en pantalla
+            viewModelScope.launch {
+                authRepository.actualizarTema(estadoActual.usuario.uid, nuevoTema) // lo guarda en Firestore por detrás
+            }
         }
     }
 

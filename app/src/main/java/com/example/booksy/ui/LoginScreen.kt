@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.booksy.AuthViewModel
 import com.example.booksy.R
+import com.example.booksy.AnalyticsViewModel
 
 
 @Composable
@@ -28,6 +29,8 @@ fun LoginScreen(
     viewModel: AuthViewModel
 ) {
     val context = androidx.compose.ui.platform.LocalContext.current
+    val analyticsViewModel: AnalyticsViewModel = hiltViewModel()
+    LaunchedEffect(Unit) { analyticsViewModel.registrarPantalla("Login") }
     var usuario by remember { mutableStateOf("") }
     var contrasena by remember { mutableStateOf("") }
     var mostrarContrasena by remember { mutableStateOf(false) }

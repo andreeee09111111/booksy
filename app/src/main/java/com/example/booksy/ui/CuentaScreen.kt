@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.booksy.AuthState
 import com.example.booksy.AuthViewModel
 import com.example.booksy.R
+import com.example.booksy.AnalyticsViewModel
 
 // Colores específicos para los botones de selección
 val TealOscuro = Color(0xFF074A4C)
@@ -44,9 +45,12 @@ fun CuentaScreen(
     onThemeChange: (Boolean) -> Unit = {},
     viewModel: AuthViewModel = hiltViewModel()
 ) {
+    val analyticsViewModel: AnalyticsViewModel = hiltViewModel()
+    LaunchedEffect(Unit) { analyticsViewModel.registrarPantalla("Biblioteca") }
     val estado by viewModel.estado.collectAsState()
     val usuario = (estado as? AuthState.ConSesion)?.usuario
     val esAdmin = usuario?.rol == "admin"
+    val esAltoContraste = usuario?.tema == "alto_contraste"
 
     // Lectura dinámica de colores desde el tema XML activo
     val backgroundColor = themeColor(R.attr.appBackgroundColor)
@@ -166,7 +170,7 @@ fun CuentaScreen(
                     // Círculo 1: Teal (Normal)
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.clickable { onThemeChange(false) }
+                        modifier = Modifier.clickable { viewModel.cambiarTema("normal") }
                     ) {
                         Box(
                             modifier = Modifier
@@ -174,13 +178,13 @@ fun CuentaScreen(
                                 .clip(CircleShape)
                                 .background(TealOscuro)
                                 .border(
-                                    width = if (!isColorblind) 3.dp else 0.dp,
-                                    color = if (!isColorblind) TealMedio else Color.Transparent,
+                                    width = if (!esAltoContraste) 3.dp else 0.dp,
+                                    color = if (!esAltoContraste) TealMedio else Color.Transparent,
                                     shape = CircleShape
                                 ),
                             contentAlignment = Alignment.Center
                         ) {
-                            if (!isColorblind) {
+                            if (!esAltoContraste) {
                                 Icon(
                                     imageVector = Icons.Default.Check,
                                     contentDescription = "Seleccionado",
@@ -195,7 +199,7 @@ fun CuentaScreen(
                     // Círculo 2: Alto Contraste (Colorblind)
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.clickable { onThemeChange(true) }
+                        modifier = Modifier.clickable { viewModel.cambiarTema("alto_contraste") }
                     ) {
                         Box(
                             modifier = Modifier
@@ -203,13 +207,13 @@ fun CuentaScreen(
                                 .clip(CircleShape)
                                 .background(AzulCobalto)
                                 .border(
-                                    width = if (isColorblind) 3.dp else 0.dp,
-                                    color = if (isColorblind) AmbarCalido else Color.Transparent,
+                                    width = if (esAltoContraste) 3.dp else 0.dp,
+                                    color = if (esAltoContraste) AmbarCalido else Color.Transparent,
                                     shape = CircleShape
                                 ),
                             contentAlignment = Alignment.Center
                         ) {
-                            if (isColorblind) {
+                            if (esAltoContraste) {
                                 Icon(
                                     imageVector = Icons.Default.Check,
                                     contentDescription = "Seleccionado",

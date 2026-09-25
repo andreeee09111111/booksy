@@ -17,12 +17,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.booksy.LibrosViewModel
 import com.example.booksy.R
+import com.example.booksy.AnalyticsViewModel
 
 @Composable
 fun ExplorarScreen(
     onVerLibro: (String) -> Unit,
     viewModel: LibrosViewModel = hiltViewModel()
 ) {
+    val analyticsViewModel: AnalyticsViewModel = hiltViewModel()
+    LaunchedEffect(Unit) { analyticsViewModel.registrarPantalla("Explorar") }
     val libros by viewModel.allBooks.collectAsState()
     val biblioteca by viewModel.biblioteca.collectAsState()
     var busqueda by remember { mutableStateOf("") }

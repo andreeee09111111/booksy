@@ -19,6 +19,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.booksy.R
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.booksy.AnalyticsViewModel
+import androidx.compose.runtime.LaunchedEffect
 
 @Composable
 fun AdminScreen(
@@ -26,6 +29,8 @@ fun AdminScreen(
     onAgregarLibro: () -> Unit,
     onVolver: () -> Unit
 ) {
+    val analyticsViewModel: AnalyticsViewModel = hiltViewModel()
+    LaunchedEffect(Unit) { analyticsViewModel.registrarPantalla("Admin") }
     Column(
         modifier = Modifier
             .fillMaxSize()

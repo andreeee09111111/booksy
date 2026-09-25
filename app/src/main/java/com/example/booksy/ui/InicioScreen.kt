@@ -29,6 +29,7 @@ import coil.compose.AsyncImage
 import com.example.booksy.Book
 import com.example.booksy.LibrosViewModel
 import com.example.booksy.R
+import com.example.booksy.AnalyticsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,6 +39,8 @@ fun InicioScreen(
     onBuscar: () -> Unit,
     viewModel: LibrosViewModel = hiltViewModel()
 ) {
+    val analyticsViewModel: AnalyticsViewModel = hiltViewModel()
+    LaunchedEffect(Unit) { analyticsViewModel.registrarPantalla("Inicio") }
     val libros by viewModel.allBooks.collectAsState()
     val biblioteca by viewModel.biblioteca.collectAsState()
     val destacado = libros.firstOrNull()

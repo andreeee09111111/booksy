@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.booksy.Book
 import com.example.booksy.LibrosViewModel
 import com.example.booksy.R
+import com.example.booksy.AnalyticsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,6 +27,8 @@ fun BibliotecaScreen(
     onVerLibro: (String) -> Unit,
     viewModel: LibrosViewModel = hiltViewModel()
 ) {
+    val analyticsViewModel: AnalyticsViewModel = hiltViewModel()
+    LaunchedEffect(Unit) { analyticsViewModel.registrarPantalla("Biblioteca") }
     val biblioteca by viewModel.biblioteca.collectAsState()
 
     Column(

@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.booksy.Book
 import com.example.booksy.LibrosViewModel
 import com.example.booksy.R
+import com.example.booksy.AnalyticsViewModel
 
 @Composable
 fun GestionarLibrosScreen(
@@ -31,6 +32,8 @@ fun GestionarLibrosScreen(
     viewModel: LibrosViewModel = hiltViewModel()
 ) {
     val libros by viewModel.allBooks.collectAsState()
+    val analyticsViewModel: AnalyticsViewModel = hiltViewModel()
+    LaunchedEffect(Unit) { analyticsViewModel.registrarPantalla("GestionarLibros") }
     var busqueda by remember { mutableStateOf("") }
     var libroAEliminar by remember { mutableStateOf<Book?>(null) }
 

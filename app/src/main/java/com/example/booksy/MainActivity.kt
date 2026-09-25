@@ -14,6 +14,9 @@ import androidx.compose.ui.Modifier
 import com.example.booksy.ui.BooksyNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import androidx.compose.runtime.LaunchedEffect
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.compose.runtime.collectAsState
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -32,6 +35,21 @@ class MainActivity : ComponentActivity() {
             // Estado para recordar si el modo alto contraste está activo
             var isColorblindMode by rememberSaveable { mutableStateOf(false) }
 
+            val authViewModel: AuthViewModel = hiltViewModel()
+            val estadoAuth by authViewModel.estado.collectAsState()
+
+            LaunchedEffect(estadoAuth) {
+                val estado = estadoAuth
+                if (estado is AuthState.ConSesion) {
+                    val temaGuardado = estado.usuario.tema == "alto_contraste"
+                    if (isColorblindMode != temaGuardado) {
+                        isColorblindMode = temaGuardado
+                        setTheme(if (isColorblindMode) R.style.Theme_Booksy_Colorblind else R.style.Theme_Booksy)
+                        recreate()
+                    }
+                }
+            }
+
             // Cambia el tema nativo según la paleta seleccionada
             val themeResId = if (isColorblindMode) R.style.Theme_Booksy_Colorblind else R.style.Theme_Booksy
             setTheme(themeResId)
@@ -40,12 +58,7 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     BooksyNavHost(
                         isColorblind = isColorblindMode,
-                        onThemeChange = { nuevoEstado ->
-                            if (isColorblindMode != nuevoEstado) {
-                                isColorblindMode = nuevoEstado
-                                recreate() // Recrea la actividad para aplicar el tema de themes.xml al instante
-                            }
-                        }
+                        onThemeChange = {}
                     )
                 }
             }

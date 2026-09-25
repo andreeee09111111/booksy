@@ -62,19 +62,39 @@ fun BooksyNavHost(
     var mostrarBusqueda by remember { mutableStateOf(false) }
 
     LaunchedEffect(estadoAuth) {
-        kotlinx.coroutines.android.awaitFrame()
+        while (navController.currentDestination == null) {
+            kotlinx.coroutines.android.awaitFrame()
+        }
+        println("🚦 NAV READY")
+        println("🚦 Estado auth: $estadoAuth")
+        println("🚦 Destino actual: ${navController.currentDestination?.route}")
         when (estadoAuth) {
             is AuthState.SinSesion -> {
-                if (rutaActual != "login") {
-                    navController.navigate("login") { popUpTo(0) }
+                if (navController.currentDestination?.route != "login") {
+                    println("🚦 Navegando a LOGIN")
+                    navController.navigate("login") {
+                        popUpTo("cargando") {
+                            inclusive = true
+                        }
+                    }
                 }
             }
+
             is AuthState.ConSesion -> {
-                if (rutaActual == null || rutaActual == "login") {
-                    navController.navigate("principal") { popUpTo(0) }
+                if (navController.currentDestination?.route == "cargando" ||
+                    navController.currentDestination?.route == "login"
+                ) {
+                    println("🚦 Navegando a PRINCIPAL")
+                    navController.navigate("principal") {
+                        popUpTo("cargando") {
+                            inclusive = true
+                        }
+                    }
                 }
             }
-            AuthState.Cargando -> {}
+            AuthState.Cargando -> {
+                println("🚦 Esperando autenticación...")
+            }
         }
     }
 
@@ -154,7 +174,8 @@ fun BooksyNavHost(
                                 onIrABiblioteca = { scope.launch { pagerState.animateScrollToPage(2) } },
                                 onCerrarSesion = { authViewModel.cerrarSesion() },
                                 isColorblind = isColorblind,
-                                onThemeChange = onThemeChange
+                                onThemeChange = onThemeChange,
+                                viewModel = authViewModel
                             )
                         }
                     }

@@ -20,6 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.imePadding
 import com.example.booksy.R
+import com.example.booksy.AnalyticsViewModel
 
 private const val LIMITE_SINOPSIS = 1200
 private val AmarilloEstrella = Color(0xFFFFC107)
@@ -31,6 +32,8 @@ fun AgregarLibroScreen(
     viewModel: LibrosViewModel = hiltViewModel()
 ) {
     var titulo by remember { mutableStateOf("") }
+    val analyticsViewModel: AnalyticsViewModel = hiltViewModel()
+    LaunchedEffect(Unit) { analyticsViewModel.registrarPantalla("GestionarLibros") }
     var autor by remember { mutableStateOf("") }
     var categoria by remember { mutableStateOf("") }
     var calificacion by remember { mutableStateOf(0) }

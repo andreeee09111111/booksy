@@ -17,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.imePadding
 import com.example.booksy.R
+import com.example.booksy.AnalyticsViewModel
 
 private val categoriasEditar = listOf("Fantasía", "Realismo mágico", "No ficción", "Misterio", "Clásico", "Romance", "Juvenil")
 private val AmarilloEstrella = Color(0xFFFFC107)
@@ -30,6 +31,8 @@ fun EditarLibroScreen(
     viewModel: LibrosViewModel = hiltViewModel()
 ) {
     var libroOriginal by remember { mutableStateOf<Book?>(null) }
+    val analyticsViewModel: AnalyticsViewModel = hiltViewModel()
+    LaunchedEffect(Unit) { analyticsViewModel.registrarPantalla("EditarLibro") }
     var titulo by remember { mutableStateOf("") }
     var autor by remember { mutableStateOf("") }
     var categoria by remember { mutableStateOf(categoriasEditar.first()) }
